@@ -17,15 +17,24 @@ function frequencyCounter(str) {
 
 function constructNote(message, strInventory) {
 
-    if (message.length > strInventory.length) return false;
+    if (message.length > strInventory.length || strInventory == "") return false;
+    if (message == "" && strInventory != null) return true;
 
     let messageMap = frequencyCounter(message);
     let inventoryMap = frequencyCounter(strInventory);
 
     for (let key of messageMap.keys()) {
-        if (messageMap.get(key) !== inventoryMap.get(key)) {
+
+        //check to see if there is even a key to match
+        if (!(inventoryMap.has(key))) {
+            return false;
+        }
+        //check if if message letter has more than in the inventory
+        if (messageMap.get(key) > inventoryMap.get(key)) {
             return false;
         }
     }
     return true;
 }
+
+module.exports = constructNote;
